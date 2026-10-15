@@ -71,7 +71,7 @@ const StackCard = ({ card, index, scrollYProgress }: CardProps) => {
         <span>{card.kind === 'landing' ? 'Dictionary of Jar ' : 'Entry '} { card.kind === 'landing' ? "" : card.number}</span>
         <span> <Link href="/projects" className="text-white/65 hover:text-white"> Projects</Link> </span>
         <span>  <Link href="/" className="text-white/65 hover:text-white"> Jarir 101</Link></span>
-    
+        <span> <Link href="/contact" className="text-white/65 hover:text-white transition-colors">Contact</Link></span>
       </div>
 
       {card.kind === 'landing' ? (
@@ -115,7 +115,7 @@ const StackCard = ({ card, index, scrollYProgress }: CardProps) => {
           <Link href="/projects" className="border border-white px-5 py-3 transition-colors hover:bg-white hover:text-[#2d4a43]">
             See Projects
           </Link>
-          <Link href="#contact" className="py-3 underline decoration-white/40 underline-offset-4 transition-colors hover:decoration-white">
+          <Link href="/contact" className="py-3 underline decoration-white/40 underline-offset-4 transition-colors hover:decoration-white">
             Contact Me
           </Link>
         </div>

@@ -8,11 +8,13 @@ export default function Projects() {
         <div className="items-center justify-center min-h-screen py-2 bg-[#4a1c24] text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
 
              <div className="flex items-start justify-between gap-6 border-b border-white/25 pt-4 pb-4 pl-10 pr-10 text-xs uppercase tracking-[0.2em] text-white/65 sm:text-sm">
-                <span> Projects </span>
-                <span> <Link href="/projects" className="text-white/65 hover:text-white"> Projjkects </Link> </span>
-                <span>  <Link href="/" className="text-white/65 hover:text-white"> Jarir 101 </Link></span>
-               </div>
+                  <span> Projects Page </span> 
+                  <span> <Link href="/projects" className="text-white/65 hover:text-white"> Projects</Link> </span>
+        <span>  <Link href="/" className="text-white/65 hover:text-white"> Jarir 101</Link></span>
+        <span> <Link href="/contact" className="text-white/65 hover:text-white transition-colors">Contact</Link></span>
+            </div>
 
+              
 
             <h1 className="text-center mb-3 ml-10 mt-4 font-serif text-5xl text-white">
                 Jarir's Projects
