@@ -28,8 +28,10 @@ type CardProps = {
 };
 
 const StackCard = ({ card, index, scrollYProgress }: CardProps) => {
-  const start = index / cards.length;
-  const end = (index + 1) / cards.length;
+  const isLast = index === cards.length - 1;
+  const totalTransitions = Math.max(cards.length - 1, 1);
+  const start = isLast ? 0 : index / totalTransitions;
+  const end = isLast ? 1 : (index + 1) / totalTransitions;
 
   // 1. Scale down slightly ONLY during the peel animation so it detaches from screen edges
   const scale = useTransform(scrollYProgress, [start, start + (end - start) * 0.4, end], [1, 0.9, 0.85]);
@@ -44,15 +46,21 @@ const StackCard = ({ card, index, scrollYProgress }: CardProps) => {
   // 4. Fade out toward the end of its interval
   const opacity = useTransform(scrollYProgress, [start, end - 0.05], [1, 0]);
 
+  // Disable pointer events and hide after card has peeled away so it doesn't block underlying cards
+  const pointerEvents = useTransform(scrollYProgress, (pos) => (isLast || pos < end - 0.05 ? 'auto' : 'none'));
+  const visibility = useTransform(scrollYProgress, (pos) => (isLast || pos < end ? 'visible' : 'hidden'));
+
   return (
     <motion.article
       key={card.title}
       style={{
-        scale,
-        x: translateX,
-        y: translateY,
-        rotate,
-        opacity,
+        scale: isLast ? 1 : scale,
+        x: isLast ? '0%' : translateX,
+        y: isLast ? '0%' : translateY,
+        rotate: isLast ? 0 : rotate,
+        opacity: isLast ? 1 : opacity,
+        pointerEvents,
+        visibility,
         zIndex: cards.length - index,
         transformOrigin: 'bottom left', // Hinge point matching your drawing
       }}
@@ -60,8 +68,10 @@ const StackCard = ({ card, index, scrollYProgress }: CardProps) => {
       className="absolute inset-0 flex h-screen w-screen flex-col justify-between overflow-hidden bg-[#2d4a43] p-6 sm:p-10 md:p-14"
     >
       <div className="flex items-start justify-between gap-6 border-b border-white/25 pb-4 text-xs uppercase tracking-[0.2em] text-white/65 sm:text-sm">
-        <span>{card.kind === 'landing' ? 'Dictionary / Portfolio' : 'Entry'}</span>
-        <span>{card.number}</span>
+        <span>{card.kind === 'landing' ? 'Dictionary of Jar ' : 'Entry '} { card.kind === 'landing' ? "" : card.number}</span>
+        <span> <Link href="/projects" className="text-white/65 hover:text-white"> Projects</Link> </span>
+        <span>  <Link href="/" className="text-white/65 hover:text-white"> Jarir 101</Link></span>
+    
       </div>
 
       {card.kind === 'landing' ? (
@@ -110,7 +120,7 @@ const StackCard = ({ card, index, scrollYProgress }: CardProps) => {
           </Link>
         </div>
       ) : card.number === '04' ? (
-        <Link href="#projects" className="w-fit border border-white px-5 py-3 font-serif text-base transition-colors hover:bg-white hover:text-[#2d4a43]">
+        <Link href="/projects" className="w-fit border border-white px-5 py-3 font-serif text-base transition-colors hover:bg-white hover:text-[#2d4a43]">
           Explore My Projects &rarr;
         </Link>
       ) : null}
